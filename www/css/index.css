@@ -1,0 +1,151 @@
+/*Fix some bootstrap code*/
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {outline: none;}
+
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    /* add smooth animation for all element */
+    -webkit-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+/* Show only if fully load content */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {display: none !important;}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#E5E5E5;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:1.4rem;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    width:100%;
+    color: #555555;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+.btn+.btn {margin-left:1rem;}
+
+.bottomNav {position: fixed;bottom: 0;background: #fff;}
+.nav-inline li {display: inline-block;list-style: none;}
+.bottomNav .nav-inline li {cursor: pointer;background: #26c6dc;position: relative;float:left;margin-right: 0.2rem;}
+.bottomNav .nav-inline li:last-child {margin-right: auto;}
+.bottomNav .nav-inline li.active {background: #269ada;}
+.bottomNav .nav-inline li img {width: 3rem;position: absolute;left: 50%;top: 50%;margin-left: -1.5rem;margin-top: -1rem;}
+
+.topbar {background: #fff;max-height: 6rem;overflow: hidden; box-shadow: 0 0px 0.6rem 0px rgba(0,0,0,0.75);}
+.topbar .logo {float:left; width: 8rem;padding-left: 1rem;padding-top: 1.8rem;}
+.topbar .mainNavIcon {float:right;width: 6rem;padding:1rem 0;background:#F27272;}
+.topbar .mainNavIcon div > span {display: block; color: #fff;text-align: center;}
+.topbar .mainNavIcon div > span > span {display: inline-block;color:#fff;margin-right: 0.5rem;}
+.topbar .mainNavIcon div > span > span:last-child {margin-right: auto;}
+.topbar .appTitle {float: left;font-size: 2.6rem;font-weight: bold; color: #F27272;text-align: center;padding-top: 1.3rem;}
+.topbar.smaller {max-height: 4rem;}
+.topbar.smaller .logo {max-width: 5.4rem;padding-top: 1.2rem;}
+.topbar.smaller .mainNavIcon {max-width: 4rem;padding:0.6rem;}
+.topbar.smaller .bigger,.topbar.bigger .smaller {display: none;}
+.topbar.smaller .smaller,.topbar.bigger .bigger {display: block;}
+
+.contactForm {padding:1.5rem;}
+.contactForm ::-webkit-input-placeholder {color:#f27272;}
+.contactForm :-moz-placeholder {color:#f27272;}
+.contactForm ::-moz-placeholder {color:#f27272;}
+.contactForm :-ms-input-placeholder {color:#f27272;}
+
+.profileContent {padding:1rem;}
+.profileContent p {margin-bottom: 0.6rem;margin-top: 0.6rem;}
+.profileContent p.value {font-size: 1.5rem;margin-bottom: 1.5rem;}
+.profileContent p.value:last-child {margin-bottom: auto;}
+.profileContent .profileInfo {background: #fff;margin-bottom: 1rem;}
+.profileContent .profileInfo .profileImage,.profileContent .profileInfo .profilePoint {padding: 0;}
+.profileContent .profileNav li {margin-top: 0.5rem;}
+.profileContent .profileNav li .btn {text-align: left;}
+.profileContent .profileNav li .btn img {float: right;height: 2.2rem;}
+
+#myLoginModal .modal-content {background: none;border: none;box-shadow: none;}
+#myLoginModal .modal-body {background-color: #26c6dc;color: #fff;}
+#myLoginModal .modal-body .myLoginPanel {border: 0.1rem solid #fff;padding:2rem;margin-bottom: 1rem;margin-top: 1rem;}
+#myLoginModal .modal-body .myLoginPanel h3 {text-align: center;margin: -3rem auto 1.5rem auto;background: #26c6dc;width: 10rem;}
+#myLoginModal .modal-body .myLoginPanel .social-login {border-bottom: 0.2rem solid #fff;margin-bottom: 1rem;padding-bottom: 3rem;}
+#myLoginModal .modal-header {border-bottom: none;}
+#myLoginModal .modal-header .close {color: #fff;font-size: 4rem;opacity: 1;}
+
+.homeContent .section .row > .col-xs-6:nth-child(odd) {padding-left: 0;}
+.homeContent .section .row > .col-xs-6:nth-child(even) {padding-right: 0;}
+.homeContent .section > h3 {background-color: #ffb850;color: #fff;font-size: 1.6rem;padding: 1rem;margin: 0.6rem -5px 0.5rem;}
+.homeContent .section .CourseItem h3,.courseList .courseItem h3 {background-color: #5be2df;font-size: 1.6rem;padding: 0.6rem 1rem;margin-top: auto; margin-bottom: 0.5rem;max-height: 3rem;overflow: hidden;line-height: 2.4rem;}
+.homeContent .mainSlide {min-height: 10rem;}
+.homeContent .carousel-control > span {position: absolute;top: 50%;margin-top: -1.5rem;}
+
+.courseList {padding: 0 1rem;}
+.courseList .filterBar {margin-top: 1rem;}
+.courseList .filterBar div:nth-child(odd) {padding-left:0;padding-right: 0;}
+.courseList .filterBar select {background:#ffb850;border: 0.1rem solid #ffb850;color:#fff;}
+.courseList .filterBar input[type="text"] {border: 0.1rem solid #ffb850;color:#ffb850;}
+.courseList .courseItem {margin-bottom: 0.6rem;overflow: hidden;background: #fff;}
+.courseList .courseItem .courseInfo,.courseList .courseItem .courseImage {padding-right: 0;padding-left: 0;}
+.courseList .courseItem .courseInfo {background: #fff;overflow: hidden;}
+.courseList .courseItem h3 {margin-bottom: auto;}
+.courseList .courseItem div > p {max-height: 8.2rem;overflow: hidden;padding: 0rem 1rem 0.5rem;line-height: 2rem;}
+.courseList .courseItem div > span {display: inline-block;padding:0 1rem;color: #ffb850;}
+
+#myModal .modal-content {background: none;border: none;box-shadow: none;}
+#myModal .modal-content .loading {color:#fff;}
+#myModal .modal-content .confirm {color:#fff;background: rgba(0,0,0,0.5);padding:2rem 0;}
+#myModal .modal-content .confirm h2 {margin-top: auto;}
+
+#myRegisterModal .modal-content h2.modalTitle {color:#ffb850;}
+
+.courseDetail .content > h2  {background: #ffb850;color: #fff;font-size: 1.6rem;margin: auto;padding: 1rem 0;text-align: center;}
+.courseDetail .content .courseImage img  {width: 100%;}
+.courseDetail .content .courseDesc  {color:#fff;background: #ffb850;padding: 0.5rem 1rem;text-align: justify;}
+.courseDetail .content .courseShare {background: #f8cb92;overflow: hidden;padding: 0.5rem 1rem;}
+.courseDetail .content .courseShare span {color:#fff;}
+.courseDetail .content .courseShare span >span {margin-left: 0.6rem;}
+.courseDetail .content .courseLession {text-align: center;background:#f27272;padding:0.5rem 0;color:#fff;}
+.courseDetail .content .courseLessionList .courseLessionItem {margin-top: 0.6rem;padding:0.5rem 1rem;background: #d78fd9;}
+.courseDetail .content .courseLessionList .courseLessionItem h3 {margin: 0.3rem auto 0.8rem;font-size: 1.6rem;}
+.courseDetail .content .courseLessionList .courseLessionItem h3 span {color:#fff;}
+.courseDetail .content .courseLessionList .courseLessionItem h3 span span {margin-left: 0.8rem;}
+.courseDetail .content .courseLessionList .courseLessionItem > p {background:#fff;margin: auto;padding:0.5rem;}
+.courseDetail .content .courseAuthor {background: #f2c9f5;padding:1rem;margin-top: 0.6rem;}
+.courseDetail .content .courseAuthor h3 {font-weight: bold;font-size: 1.6rem;margin: auto;}
+.courseDetail .content .courseAuthor h4 {font-weight: normal;font-size: 1.6rem;margin-bottom: 1rem;margin: 0.6rem auto 1.6rem;}
+
+.vjs-default-skin .vjs-captions-button:before {content: "Eng";}
+.vjs-default-skin .vjs-subtitles-button:before {content: "中文";}
+.vjs-default-skin .vjs-menu {display: none!important;}
+
+.addpointview {margin-top:1rem;}
+
+#buyCouponForm {background: #fff;margin: 1rem 0.25rem;padding: 1rem;}
+
+@keyframes blinkinput {
+    0%   {border-color: #ccc;}
+    50%  {border-color: #f27272;}
+    100% {border-color: #ccc;}
+}
+
+input.ng-invalid.ng-dirty {
+    animation-name: blinkinput;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com * 'unsafe-inline' 'unsafe-eval'; style-src 'self'  * 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+        <link rel="stylesheet" type="text/css" href="video-js/video-js.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        
+        <title>E-Learning</title>
+    </head>
+    <body>
+        <div id="elearningApp">
+            <div class="topbar bigger" ng-controller="topNav" ng-cloak>
+                <div ng-click="devInfo();" class="logo"><img class="img-responsive" src="img/BeABCLogo.png"/></div>
+                <div class="appTitle bigger">{{langLabel.first.apptitle}}</div>
+                <div class="mainNavIcon">
+                    <div class="bigger" ng-click="changeLanguage();"><span>{{langLabel.first.name}}</span><span><span>{{langLabel.second.name}}</span><span>{{langLabel.third.name}}</span></span></div>
+                    <div class="smaller"><img class="img-responsive" src="img/LearnIcons/fa-bars_256_0_ffffff_none.png" /></div>
+                </div>
+            </div>
+            <div ng-show="appSettings.isCurrentView('home');" ng-controller="homeView" ng-cloak>                
+                <div class="content container-fluid">
+                    <div class="homeContent row">
+                        <div class="mainSlide">
+                            <div id="mainSlideCarousel" class="carousel slide">
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item" ng-class="{'active':$first}" ng-repeat="item in mainSlide">
+                                        <img ng-src="{{appSettings.getImageSrc(item.images.image_fulltext)}}">
+                                        <div class="carousel-caption">
+                                            <h3>{{item.title}}</h3>
+                                            <p ng-bind-html="appSettings.convertHtml(item.introtext);"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Controls -->
+                                <a class="left carousel-control" href="#mainSlideCarousel" role="button" data-slide="prev">
+                                    <span><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#mainSlideCarousel" role="button" data-slide="next">
+                                    <span><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>                                                
+                        </div>
+                        <div class="featureSection section col-xs-12">
+                            <h3 ng-click="appSettings.setCurrentView('courselist');">{{label.featured_courses}} <span class="pull-right">{{label.more}} <i class="fa fa-plus-circle fa-inverse"></i></span></h3>
+                            <div class="row">
+                                <div class="col-xs-6" ng-repeat="item in featuredCourses | limitTo:4">
+                                    <div class="featureCourseItem CourseItem">
+                                        <div class="courseImage">
+                                            <img ng-click="appSettings.showCourseDetail(item);" class="img-responsive" ng-src="{{appSettings.getImageSrc(item.image_avatar)}}" />
+                                        </div>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='en_gb'">{{item.name}}</h3>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_tw'">{{item.name_hk}}</h3>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_cn'">{{item.name_cn}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="popularSection section col-xs-12">
+                            <h3 ng-click="appSettings.setCurrentView('courselist');">{{label.popular_courses}} <span class="pull-right">{{label.more}} <i class="fa fa-plus-circle fa-inverse"></i></span></h3>
+                            <div class="row">
+                                <div class="col-xs-6" ng-repeat="item in popularCourses | limitTo:4">
+                                    <div class="popularCourseItem CourseItem">
+                                        <div class="courseImage">
+                                            <img ng-click="appSettings.showCourseDetail(item);" class="img-responsive" ng-src="{{appSettings.getImageSrc(item.image_avatar)}}" />
+                                        </div>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='en_gb'">{{item.name}}</h3>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_tw'">{{item.name_hk}}</h3>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_cn'">{{item.name_cn}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="latestSection section col-xs-12">
+                            <h3 ng-click="appSettings.setCurrentView('courselist');">{{label.latest_courses}} <span class="pull-right">{{label.more}} <i class="fa fa-plus-circle fa-inverse"></i></span></h3>
+                            <div class="row">
+                                <div class="col-xs-6" ng-repeat="item in latestCourses | limitTo:4">
+                                    <div class="lastestCourseItem CourseItem">
+                                        <div class="courseImage">
+                                            <img ng-click="appSettings.showCourseDetail(item);" class="img-responsive" ng-src="{{appSettings.getImageSrc(item.image_avatar)}}" />
+                                        </div>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='en_gb'">{{item.name}}</h3>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_tw'">{{item.name_hk}}</h3>
+                                        <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_cn'">{{item.name_cn}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+            
+            <div ng-show="appSettings.isCurrentView('courselist');" ng-controller="courseView" ng-cloak>
+                <div class="courseList content">
+                    <div class="row filterBar">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-options="opt.name for opt in filter1Options track by opt.id" ng-model="filter1" ng-change="updateCourseList();"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <select class="form-control" ng-options="opt.name for opt in courseCategories track by opt.id" ng-model="category" ng-change="updateCourseList();"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <form ng-submit="updateCourseList();" autocomplete="off">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="{{label.search}}" ng-model="searchword"/>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="item in courseList">
+                        <div class="courseItem">
+                            <div class="courseImage col-xs-6">
+                                <img ng-click="appSettings.showCourseDetail(item);" class="img-responsive" ng-src="{{appSettings.getImageSrc(item.image_avatar)}}"/>
+                            </div>
+                            <div class="courseInfo col-xs-6 text-justify">
+                                <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='en_gb'">{{item.name}}</h3>
+                                <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_tw'">{{item.name_hk}}</h3>
+                                <h3 ng-click="appSettings.showCourseDetail(item);" ng-show="appSettings.getLanguage()=='zh_cn'">{{item.name_cn}}</h3>
+                                
+                                <span ng-bind-html="appSettings.getRateView(item.rate.point);"></span>
+                                
+                                <p ng-show="appSettings.getLanguage()=='en_gb'" ng-bind-html="appSettings.convertHtml(item.description_raw);"></p>
+                                <p ng-show="appSettings.getLanguage()=='zh_tw'" ng-bind-html="appSettings.convertHtml(item.description_hk_raw);"></p>
+                                <p ng-show="appSettings.getLanguage()=='zh_cn'" ng-bind-html="appSettings.convertHtml(item.description_cn_raw);"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" ng-show="hasMore">
+                        <button ng-click="loadMoreCourse();" class="btn btn-primary">More</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="courseDetail" ng-show="appSettings.isCurrentView('coursedetail');" ng-controller="courseDetail" ng-cloak>
+                <div class="content">
+                    <h2 ng-show="appSettings.getLanguage()=='en_gb'">{{course.name}}</h2>
+                    <h2 ng-show="appSettings.getLanguage()=='zh_tw'">{{course.name_hk}}</h2>
+                    <h2 ng-show="appSettings.getLanguage()=='zh_cn'">{{course.name_cn}}</h2>
+                    <div class="courseImage">
+                        <img class="img-responsive" ng-src="{{appSettings.getImageSrc(course.image_avatar)}}"/>
+                    </div>
+                    <div class="courseDesc">
+                        <p ng-show="appSettings.getLanguage()=='en_gb'" ng-bind-html="appSettings.convertHtml(course.description);"></p>
+                        <p ng-show="appSettings.getLanguage()=='zh_tw'" ng-bind-html="appSettings.convertHtml(course.description_hk);"></p>
+                        <p ng-show="appSettings.getLanguage()=='zh_cn'" ng-bind-html="appSettings.convertHtml(course.description_cn);"></p>
+                    </div>
+                    <div class="courseShare">
+                        <span><i class="fa fa-comments-o"></i> {{label.discussion}}</span>
+                        <span class="pull-right">
+                            <span><i class="fa fa-share-alt"></i></span>
+                            <span><i class="fa fa-facebook-square"></i></span>
+                            <span><i class="fa fa-weixin"></i></span>
+                        </span>
+                    </div>
+                    <div class="courseLession">
+                        <span>{{label.lession}}</span>
+                    </div>
+                    <div class="courseLessionList">
+                        <div ng-click="appSettings.setCurrentLession(lession);" class="courseLessionItem" ng-repeat="lession in course.programDetails">
+                            <h3>
+                                {{lession.title}}
+                                <span class="pull-right">
+                                    <span ng-show="lession.module.difficultylevel">{{label.level}} {{lession.module.difficultylevel}}</span>
+                                    <span ng-show="lession.module.video_point==0">{{label.free}}</span>
+                                    <span ng-show="lession.module.video_point>0">{{label.points}} {{lession.module.video_point}}</span>
+                                </span>
+                            </h3>
+                            <p ng-show="lession.module.name">{{lession.module.name}}</p>
+                        </div>
+                    </div>
+                    <div class="courseAuthor">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="authorImage" ng-click="showCourseByTeacher();">
+                                    <img class="img-responsive" ng-src="{{appSettings.getImageSrc(course.authorDetail.images)}}"/>
+                                </div>                            
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="authorInfo" ng-click="showCourseByTeacher();">
+                                    <h3>{{label.name}}</h3>
+                                    <h4>{{course.authorDetail.name}}</h4>
+                                    <h3>{{label.profile}}</h3>
+                                    <p ng-bind-html="appSettings.convertHtml(course.authorDetail.full_bio);"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-show="appSettings.isCurrentView('lessiondetail');" ng-controller="lessionDetail" ng-cloak>
+                <div class="content">
+                    <div id="playerContainer"></div>
+                </div>
+            </div>
+            
+            <div ng-show="appSettings.isCurrentView('blog');" ng-controller="blogView" ng-cloak>
+                <div class="content">
+                    <h2>Blog Content</h2>
+                </div>
+            </div>
+            <div ng-show="appSettings.isCurrentView('contact');" ng-controller="contactView" ng-cloak>
+                <div class="content">
+                    <div class="contactForm">
+                        <div class="form-group">
+                            <input class="form-control" placeholder="{{label.subject}}" ng-model="formData.subject" />                            
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="{{label.email}}" ng-model="formData.email" />                            
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="16" placeholder="{{label.message}}" ng-model="formData.message"></textarea>                          
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-danger btn-block" ng-click="submitForm();">{{label.submit}}</button>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="appSettings.isCurrentView('profile');" ng-controller="profileView" ng-cloak>
+                <div class="content">
+                    <div class="profileContent">
+                        <div class="profileInfo row">
+                            <div class="profileImage col-xs-4"><img class="img-responsive" ng-src="{{user.images}}"></div>
+                            <div class="profileBasic col-xs-5">
+                                <p class="infolabel">{{label.name}}</p>
+                                <p class="value">{{user.name}}</p>
+                                <p class="infolabel">{{label.member_no}}</p>
+                                <p class="value">{{user.member_no}}</p>
+                            </div>
+                            <div class="profilePoint col-xs-3">
+                                <p class="infolabel">{{label.point}}</p>
+                                <p class="value">{{user.point}}</p>
+                            </div>
+                        </div>
+                        <div class="profileNav row">
+                            <ul class="nav">
+                                <li><button class="btn btn-danger btn-block btn-lg btn-dashboard">{{label.dashboard}}<span class="pull-right"><i class="fa fa-cog"></i></span></button></li>
+                                <li><button class="btn btn-danger btn-block btn-lg btn-favorite" ng-click="showFavorite();">{{label.favorite}}<span class="pull-right"><i class="fa fa-star"></i></span></button></li>
+                                <li><button class="btn btn-danger btn-block btn-lg btn-profile">{{label.profile}}<span class="pull-right"><i class="fa fa-user"></i></span></button></li>
+                                <li><button class="btn btn-danger btn-block btn-lg btn-addpoint" ng-click="appSettings.setCurrentView('addpoint');">{{label.addpoint}}<span class="pull-right"><i class="fa fa-cart-plus"></i></span></button></li>
+                                <li><button class="btn btn-danger btn-block btn-lg btn-buyaccounts" ng-click="appSettings.setCurrentView('buyaccount');">{{label.buyaccounts}}<span class="pull-right"><i class="fa fa-chevron-right"></i></span></button></li>
+                                <li><button class="btn btn-danger btn-block btn-lg btn-buycoupons" ng-click="appSettings.setCurrentView('buycoupon');">{{label.buycoupons}}<span class="pull-right"><i class="fa fa-tag"></i></span></button></li>
+                                <li><button class="btn btn-danger btn-block btn-lg btn-logout" ng-click="doLogout();">{{label.logout}}<span class="pull-right"><i class="fa fa-sign-out"></i></span></button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-show="appSettings.isCurrentView('addpoint');" ng-controller="addPointView" ng-cloak>
+                <div class="content container-fluid">
+                    <div class="row">                    
+                        <div class="addpointview col-xs-12">
+                            <div class="panel-group" id="addPointAccord" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="addPointCouponCode">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#addPointAccord" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                {{label.coupon_code}}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="addPointCouponCode">
+                                        <div class="panel-body">
+                                            <form ng-submit="couponCodeForm.$valid && doAddCoupon();" name="couponCodeForm" class="form-inline" novalidate autocomplete="off">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="couponcode" ng-model="coupon_code" placeholder="{{label.coupon_code}}" required />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-info">{{label.confirm}}</button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="addPointPurchase">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#addPointAccord" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                                                {{label.online_purchase}}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="addPointPurchase">
+                                        <div class="panel-body">
+                                            <form ng-submit="doAddPoint();" class="form-inline" novalidate autocomplete="off">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="unit" ng-model="form.unit" />
+                                                        <span class="input-group-addon">{{label.unit}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" disabled ng-value="pointvalue*form.unit"/>
+                                                        <span class="input-group-addon">{{label.points}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[0]" /> HKD
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[1]" /> RMB
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[2]" /> USD
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{label.total}}: {{form.currency.value*form.unit}} {{form.currency.name}}</label>
+                                                    <select ng-model="form.method" class="form-control" name="paymentmethod">
+                                                        <option value="paypal">Paypal</option>
+                                                        <option value="manual">Manual</option>
+                                                    </select>
+                                                </div>                                                
+                                                <div class="form-group">
+                                                    <button ng-disabled="notAllowSubmit" class="btn btn-info">{{label.buy}}</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-show="appSettings.isCurrentView('buyaccount');" ng-controller="buyAccountView" ng-cloak>
+                <div class="content container-fluid">
+                    <div class="row">                    
+                        <div class="buyaccountview col-xs-12">
+                            <div class="panel-group" id="buyAccountAccord" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="buyAccountTab">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#buyAccountAccord" href="#buyAccountSection" aria-expanded="true" aria-controls="buyAccountSection">
+                                                {{label.buy_more_account}}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="buyAccountSection" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="buyAccountTab">
+                                        <div class="panel-body">
+                                            <form ng-submit="buyAccountForm.$valid && doBuyAccount();" name="buyAccountForm" class="form-inline" novalidate autocomplete="off">
+                                                <div class="form-group">
+                                                    <label>{{label.number_account}}</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" required name="numberaccount" ng-model="form.numberaccount" />
+                                                        <span class="input-group-addon">{{label.accounts}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{label.select_currency}}</label>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[0]" /> HKD
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[1]" /> RMB
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[2]" /> USD
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{label.total}}</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" disabled ng-value="form.currency.value*form.numberaccount" />
+                                                        <span class="input-group-addon">{{form.currency.name}}</span>
+                                                    </div>
+                                                </div>                                                
+                                                <div class="form-group">
+                                                    <label>{{label.payment_method}}</label>
+                                                    <select ng-model="form.method" class="form-control" name="paymentmethod">
+                                                        <option value="paypal">Paypal</option>
+                                                        <option value="manual">Manual</option>
+                                                    </select>
+                                                </div>
+                                                <button ng-disabled="notAllowSubmit" class="btn btn-info">{{label.buy}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="yourAccount">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#buyAccountAccord" href="#yourAccountTab" aria-expanded="true" aria-controls="yourAccountTab">
+                                                {{label.your_accounts}}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="yourAccountTab" class="panel-collapse collapse" role="tabpanel" aria-labelledby="yourAccount">
+                                        <div class="panel-body">
+                                            <table class="table table-responsive">
+                                                <tr>
+                                                    <th>{{label.username}}</th>
+                                                    <th>{{label.password}}</th>
+                                                    <th>{{label.salename}}</th>
+                                                    <th>{{label.status}}</th>
+                                                    <th>{{label.created}}</th>
+                                                    <th>{{label.changestatus}}</th>
+                                                    <th>{{label.remark}}</th>
+                                                    <th>&nbsp;</th>
+                                                </tr>
+                                                <!-- accounts below -->
+                                            </table>    
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-show="appSettings.isCurrentView('buycoupon');" ng-controller="buyCouponView" ng-cloak>
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <form novalidate autocomplete="off" name="buyCouponForm" id="buyCouponForm" ng-submit="buyCouponForm.$valid && doBuyCoupon();">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" required ng-model="form.coupon" />
+                                        <span class="input-group-addon">{{label.coupons}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" disabled ng-value="form.coupon * form.point_per_coupon" />
+                                        <span class="input-group-addon">{{label.points}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{label.select_currency}}</label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[0]" /> HKD
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[1]" /> RMB
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="currency" ng-model="form.currency" ng-value="currencies[2]" /> USD
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{label.total}}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" disabled ng-value="form.currency.value*form.coupon" />
+                                        <span class="input-group-addon">{{form.currency.name}}</span>
+                                    </div>
+                                </div>                                                
+                                <div class="form-group">
+                                    <label>{{label.payment_method}}</label>
+                                    <select ng-model="form.method" class="form-control" name="paymentmethod">
+                                        <option value="paypal">Paypal</option>
+                                        <option value="manual">Manual</option>
+                                    </select>
+                                </div>
+                                <button ng-disabled="notAllowSubmit" class="btn btn-info">{{label.buy}}</button>                        
+                            </form> 
+                        </div>
+                    </div>   
+                </div>
+            </div>
+                                                
+            <div class="bottomNav" ng-controller="bottomNav">
+                <ul class="nav nav-inline">
+                    <li class="home active" ng-click="showView('home');"><img class="homeIcon" src="img/LearnIcons/home.png" /></li>
+                    <li class="courselist" ng-click="showView('courselist');"><img class="listIcon" src="img/LearnIcons/list.png" /></li>
+                    <li class="blog" ng-click="showView('blog');"><img class="blogIcon" src="img/LearnIcons/blog.png" /></li>
+                    <li class="contact" ng-click="showView('contact');"><img class="contactIcon" src="img/LearnIcons/contact.png" /></li>
+                    <li class="profile" ng-click="showView('profile');"><img class="profileIcon" src="img/LearnIcons/profile.png" /></li>
+                </ul>
+            </div>
+            
+            <!-- login modal -->
+            <div ng-controller="loginModal" class="modal fade" id="myLoginModal" tabindex="-1" role="dialog" aria-labelledby="myLoginModalLabel" data-backdrop="static">
+            	<div class="modal-dialog" role="document">
+            		<div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+            			<div class="modal-body">
+            				<div class="myLoginPanel">
+                                <h3>{{label.sign_in}}</h3>
+                                <div class="social-login">
+                                    <div class="row">
+                                        <div class="col-xs-3 text-center">
+                                            <i ng-click="doFbLogin();" class="fa fa-facebook-square fa-2x fa-inverse"></i>
+                                        </div>
+                                        <div class="col-xs-3 text-center">
+                                            <i class="fa fa-2x fa-inverse fa-weixin"></i>
+                                        </div>
+                                        <div class="col-xs-3 text-center">
+                                            <i class="fa fa-weibo fa-2x fa-inverse"></i>
+                                        </div>
+                                        <div class="col-xs-3 text-center">
+                                            <i class="fa fa-qq fa-2x fa-inverse"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3>{{label.or}}</h3>
+                                <div class="virtualForm">
+                                    <form ng-submit="myLoginForm.$valid && doLogin();" name="myLoginForm" novalidate autocomplete="off">
+                                        <div class="form-group">
+                                            <input required ng-model="user.username" name="username" type="text" class="form-control" placeholder="{{label.username}}">
+                                            <span class="help-block" ng-show="(myLoginForm.$submitted || myLoginForm.username.$touched) && myLoginForm.username.$error.required">{{label.username_required}}</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input required ng-model="user.password" name="password" type="password" class="form-control" placeholder="{{label.password}}">
+                                            <span class="help-block" ng-show="(myLoginForm.$submitted || myLoginForm.password.$touched) && myLoginForm.password.$error.required">{{label.password_required}}</span>
+                                        </div>
+                                        <button type="submit" ng-disabled="blockLogin" class="btn btn-default btn-block">{{label.log_in}}</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="extendPanel row">
+                                <div class="col-xs-6">
+                                    <ul class="nav nav-stacked">
+                                        <li>{{label.forgot_username}}</li>
+                                        <li>{{label.forgot_password}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button class="round btn btn-warning" ng-click="openRegisterModal();">{{label.new_register}}</button>
+                                </div>
+                            </div>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            
+            <!-- register Modal -->
+            <div ng-controller="registerModal" class="modal fade" id="myRegisterModal" tabindex="-1" role="dialog" aria-labelledby="myRegisterModalLabel">
+            	<div class="modal-dialog" role="document">
+            		<div class="modal-content">
+            			<div class="modal-body">
+                            <div class="registerForm">
+                                <h2 class="text-center modalTitle">{{label.register}}</h2>
+                                <form ng-submit="registerForm.$valid && doRegister();"  name="registerForm" novalidate autocomplete="off">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <input type="text" class="form-control" required name="formName" placeholder="{{label.name}}" ng-model="user.name">
+                                        </div>
+                                        <span class="help-block text-error" ng-show="registerForm.formName.$error.required && registerForm.formName.$dirty">{{label.required}}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <input type="text" class="form-control" required name="formUsername" placeholder="{{label.username}}" ng-model="user.username" ng-model-options="{ updateOn: 'blur' }" ng-change="checkUsername();">
+                                        </div>
+                                        <span class="help-block text-error" ng-show="registerForm.formUsername.$error.required && registerForm.formUsername.$dirty">{{label.required}}</span>
+                                        <span class="help-block text-error" ng-show="registerForm.formUsername.$error.userExisted && registerForm.formUsername.$dirty">{{label.user_existed}}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <input type="email" class="form-control" name="formEmail" required placeholder="{{label.email}}" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }" ng-change="checkEmail();">
+                                        </div>
+                                        <span class="help-block text-error" ng-show="registerForm.formEmail.$error.email">{{label.invalid_email}}</span>
+                                        <span class="help-block text-error" ng-show="registerForm.formEmail.$error.required && registerForm.formEmail.$dirty">{{label.required}}</span>
+                                        <span class="help-block text-error" ng-show="registerForm.formEmail.$error.emailExisted && registerForm.formEmail.$dirty">{{label.email_existed}}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <input type="password" class="form-control" required name="passWord" placeholder="{{label.password1}}" ng-model="user.password1">
+                                        </div>
+                                        <span class="help-block text-error" ng-show="registerForm.passWord.$error.required && registerForm.passWord.$dirty">{{label.required}}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                            <input type="password" class="form-control" required name="confirmPass" placeholder="{{label.password2}}" ng-model="user.password2" compare-to="user.password1">
+                                        </div>
+                                        <span class="help-block text-error" ng-show="registerForm.confirmPass.$error.required && registerForm.confirmPass.$dirty">{{label.required}}</span>
+                                        <span class="help-block text-error" ng-show="registerForm.confirmPass.$error.compareTo && registerForm.confirmPass.$dirty">{{label.password_not_match}}</span>
+                                    </div>
+                                    <h2 class="text-center modalTitle">{{label.payment_info}}</h2>
+                                    <div class="form-group">
+                                        <label for="registerCurrency">{{label.currency}}</label>
+                                        <select class="form-control registerCurrencySelect" ng-disabled="allowSelectCurrency" ng-model="user.currency" ng-options="cur.name for cur in currency track by cur.id"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">{{user.currency.name}}</span>
+                                            <input class="form-control" ng-model="user.currency.value" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{{label.payment_method}}: <span>{{label.payment_method_name}}</span></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button ng-disabled="allowSelectCurrency || registerForm.$invalid" class="btn btn-warning">{{label.submit}}</button>
+                                        <button class="btn btn-default" data-dismiss="modal">{{label.cancel}}</button>
+                                    </div>
+                                </form>
+                            </div>	
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            
+            <!-- default Modal -->
+            <div ng-controller="defaultModal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            	<div class="modal-dialog" role="document">
+            		<div class="modal-content">
+            			<div id="myModalBody" class="modal-body">
+            				<section ng-show="appSettings.getModal('confirm')" class="confirm text-center">
+                                <h2>{{label.are_you_sure}}</h2>
+                                <button ng-click="confirmAction(1);" class="btn btn-danger btn-lg">{{label.yes}}</button>
+                                <button ng-click="confirmAction(0);" class="btn btn-lg">{{label.no}}</button>
+                            </section>
+                            <section ng-show="appSettings.getModal('loading')" class="loading text-center">
+                                <h2>Loading</h2>
+                                <i class="fa fa-refresh fa-spin fa-5x"></i>
+                            </section>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            
+            
+            
+        </div>
+        
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+        <script type="text/javascript" src="video-js/video.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>
