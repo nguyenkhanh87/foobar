@@ -605,7 +605,40 @@ elearning.controller('addPointView',['$scope','$http', 'appSettings', function($
         method: "paypal"
     };    
     $scope.doAddPoint = function() {
-        console.log($scope.form);
+        $scope.user = appSettings.getUser();
+        if($scope.form.method == "paypal") {
+            var total = $scope.form.unit * $scope.form.currency.value;
+            var paymentDetails = new PayPalPaymentDetails(total, "0.00", "0.00");
+            var payment = new PayPalPayment(total, $scope.form.currency.name, "eLearn: Add point", "Sale", paymentDetails);
+            appSettings.setModal('loading');
+            jQuery('#myModal').modal({'backdrop':'static'});
+            PayPalMobile.renderSinglePaymentUI(payment, function(pm) {
+                //on success
+                $http.post(appSettings.getRootUrl(),{"task":"addPoint","form":$scope.form,"payment":pm},{headers:{"Authorization":"key="+$scope.user.id+";token="+$scope.user.password}}).then(function(xhr) {
+                    if(xhr.data.error==false) {
+                        $scope.user.point = xhr.data.point;
+                        appSettings.setUser($scope.user);                    
+                    }
+                    appSettings.setModal('none');
+                    jQuery('#myModal').modal("hide");    
+                },function() {
+                    appSettings.setModal('none');
+                    jQuery('#myModal').modal("hide"); 
+                });
+            }, function(result) {
+                //on user cancel
+                appSettings.setModal('none');
+                jQuery('#myModal').modal("hide");
+            });    
+        }else{
+            $http.post(appSettings.getRootUrl(),{"task":"addPoint","form":$scope.form},{headers:{"Authorization":"key="+$scope.user.id+";token="+$scope.user.password}}).then(function(xhr) {
+                if(xhr.data.error==false) {
+                         
+                }     
+            },function() {
+                //Show error modal popup
+            });
+        }        
     };
     $scope.coupon_code = '';
     $scope.doAddCoupon = function() {
@@ -711,6 +744,41 @@ elearning.controller('buyCouponView',['$scope','$http', 'appSettings', function(
     };
     $scope.notAllowSubmit = true;
     $scope.needUpdated = true;
+    $scope.doBuyCoupon = function() {
+        $scope.user = appSettings.getUser();
+        if($scope.form.method == "paypal") {
+            var total = $scope.form.coupon * $scope.form.currency.value;
+            var paymentDetails = new PayPalPaymentDetails(total, "0.00", "0.00");
+            var payment = new PayPalPayment(total, $scope.form.currency.name, "eLearn: Add point", "Sale", paymentDetails);
+            appSettings.setModal('loading');
+            jQuery('#myModal').modal({'backdrop':'static'});
+            PayPalMobile.renderSinglePaymentUI(payment, function(pm) {
+                //on success
+                $http.post(appSettings.getRootUrl(),{"task":"buyCoupon","form":$scope.form,"payment":pm},{headers:{"Authorization":"key="+$scope.user.id+";token="+$scope.user.password}}).then(function(xhr) {
+                    if(xhr.data.error==false) {
+                        //confirm done                    
+                    }
+                    appSettings.setModal('none');
+                    jQuery('#myModal').modal("hide");    
+                },function() {
+                    appSettings.setModal('none');
+                    jQuery('#myModal').modal("hide"); 
+                });
+            }, function(result) {
+                //on user cancel
+                appSettings.setModal('none');
+                jQuery('#myModal').modal("hide");
+            });    
+        }else{
+            $http.post(appSettings.getRootUrl(),{"task":"addPoint","form":$scope.form},{headers:{"Authorization":"key="+$scope.user.id+";token="+$scope.user.password}}).then(function(xhr) {
+                if(xhr.data.error==false) {
+                         
+                }     
+            },function() {
+                //Show error modal popup
+            });
+        }    
+    };
     $scope.$watch(function() {
         return appSettings.getCurrentView();    
     },function(n,o) {
@@ -1064,8 +1132,24 @@ elearning.controller('registerModal',['$scope','$http', 'appSettings', function(
 //Init whole app
 //'load', 'deviceready', 'offline', and 'online'
 document.addEventListener('deviceready', function() {
-    angular.bootstrap(document.getElementById('elearningApp'), ['elearningApp']);    
+    angular.bootstrap(document.getElementById('elearningApp'), ['elearningApp']);
+    var clientIDs = {
+       "PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
+       "PayPalEnvironmentSandbox": "Abh4iyGeII5hXKdqu8_TZerw5aQl4d_4kEOViCr3d7Rth7onci74z9d-yulJVulaQ91_RgJWZ62tpVRj"
+     };
+     PayPalMobile.init(clientIDs, function() {
+        var config = new PayPalConfiguration({merchantName: "eLearn", merchantPrivacyPolicyURL: "http://e.igniting.hk/e1", merchantUserAgreementURL: "http://e.igniting.hk/e1"});
+        PayPalMobile.prepareToRender("PayPalEnvironmentSandbox", config, function() {
+            //All set up is done.
+        });   
+     });
+     setInterval(function() {
+        if (StatusBar.isVisible) {
+            StatusBar.hide();
+        }
+     },1000);     
 }, false);
+
 // Deleted this line before complied.
 //angular.bootstrap(document.getElementById('elearningApp'), ['elearningApp']);
  
